@@ -1,1 +1,219 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
+body{
+background:#f5f7fa;
+color:#333;
+}
+
+/* Header */
+
+header{
+background:#0d6efd;
+color:#fff;
+padding:25px;
+text-align:center;
+}
+
+header h1{
+font-size:38px;
+}
+
+header p{
+margin-top:10px;
+font-size:18px;
+}
+
+/* Navbar */
+
+.navbar-brand{
+font-weight:bold;
+font-size:24px;
+}
+
+.nav-link{
+font-size:17px;
+}
+
+/* Hero */
+
+.hero{
+background:linear-gradient(rgba(13,110,253,.8),rgba(13,110,253,.8)),
+url("images/banner.jpg");
+background-size:cover;
+background-position:center;
+padding:120px 20px;
+text-align:center;
+color:#fff;
+}
+
+.hero h1{
+font-size:50px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:22px;
+margin-bottom:30px;
+}
+
+/* Slider */
+
+.slider{
+width:100%;
+height:400px;
+overflow:hidden;
+position:relative;
+}
+
+.slide{
+width:100%;
+height:400px;
+object-fit:cover;
+display:none;
+}
+
+.slide.active{
+display:block;
+}
+
+/* Statistics */
+
+.stats{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+padding:50px 20px;
+background:#fff;
+}
+
+.stat-box{
+background:#0d6efd;
+color:#fff;
+padding:30px;
+border-radius:12px;
+width:220px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+.stat-box h2{
+font-size:40px;
+}
+
+/* Cards */
+
+.card{
+border:none;
+border-radius:15px;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+/* Buttons */
+
+.btn{
+padding:12px 25px;
+border-radius:30px;
+margin:5px;
+}
+
+/* Register/Login */
+
+.register-box{
+width:380px;
+background:#fff;
+margin:60px auto;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.register-box h2{
+text-align:center;
+margin-bottom:20px;
+color:#0d6efd;
+}
+
+.register-box input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px;
+}
+
+.register-box button{
+width:100%;
+padding:12px;
+background:#0d6efd;
+color:#fff;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+.register-box button:hover{
+background:#084298;
+}
+
+.register-box p{
+text-align:center;
+margin-top:15px;
+}
+
+/* Dashboard */
+
+.container-card{
+max-width:500px;
+margin:30px auto;
+}
+
+.balance{
+font-size:40px;
+font-weight:bold;
+color:#0d6efd;
+text-align:center;
+}
+
+/* Footer */
+
+footer{
+margin-top:50px;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:34px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+.slider,
+.slide{
+height:220px;
+}
+
+.stat-box{
+width:90%;
+}
+
+.register-box{
+width:92%;
+}
+
+}
