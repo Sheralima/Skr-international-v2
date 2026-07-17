@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - SKR INTERNATIONAL</title>
 
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="register-box">
+
+<h2>Create Account</h2>
+
+<input
+type="text"
+id="name"
+placeholder="Full Name">
+
+<input
+type="email"
+id="email"
+placeholder="Email Address">
+
+<input
+type="password"
+id="password"
+placeholder="Password (Minimum 6 Characters)">
+
+<button id="registerBtn">
+
+Create Account
+
+</button>
+
+<p>
+
+Already have an account?
+
+<a href="login.html">
+
+Login
+
+</a>
+
+</p>
+
+</div>
+
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+import {
+doc,
+setDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const registerBtn=document.getElementById("registerBtn");
+
+registerBtn.addEventListener("click",async()=>{
+
+const name=document.getElementById("name").value.trim();
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value;
+
+if(name===""){
+
+alert("Please enter your name");
+
+return;
+
+}
+
+if(email===""){
+
+alert("Please enter your email");
+
+return;
+
+}
+
+if(password===""){
+
+alert("Please enter password");
+
+return;
+
+}
+
+if(password.length<6){
+
+alert("Password must be at least 6 characters");
+
+return;
+
+}
+
+try{
+
+const userCredential=
+
+await createUserWithEmailAndPassword(
+
+auth,
+
+email,
+
+password
+
+);
+
+await setDoc(
+
+doc(db,"users",userCredential.user.uid),
+
+{
+
+name:name,
+
+email:email,
+
+balance:0,
+
+status:"Active",
+
+createdAt:new Date().toISOString()
+
+}
+
+);
+
+alert("Account Created Successfully");
+
+window.location.href="login.html";
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
