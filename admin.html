@@ -1,1 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel - SKR INTERNATIONAL</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+
+<div class="container">
+
+<a class="navbar-brand" href="#">
+SKR INTERNATIONAL ADMIN PANEL
+</a>
+
+<a href="admin-login.html" class="btn btn-danger">
+Logout
+</a>
+
+</div>
+
+</nav>
+
+<div class="container mt-5">
+
+<h2 class="text-center text-primary mb-4">
+Admin Dashboard
+</h2>
+
+<div class="row">
+
+<div class="col-md-4 mb-4">
+
+<div class="card shadow text-center p-4">
+
+<h3>Total Users</h3>
+
+<h1 id="users">0</h1>
+
+</div>
+
+</div>
+
+<div class="col-md-4 mb-4">
+
+<div class="card shadow text-center p-4">
+
+<h3>Total Deposits</h3>
+
+<h1 id="deposits">0</h1>
+
+</div>
+
+</div>
+
+<div class="col-md-4 mb-4">
+
+<div class="card shadow text-center p-4">
+
+<h3>Total Withdraws</h3>
+
+<h1 id="withdraws">0</h1>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow p-4">
+
+<h4 class="mb-3">
+Recent Activity
+</h4>
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Type</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td colspan="4" class="text-center">
+
+No Data Available
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+document.getElementById("users").innerHTML="0";
+
+document.getElementById("deposits").innerHTML="0";
+
+document.getElementById("withdraws").innerHTML="0";
+
+</script>
+
+</body>
+</html>
