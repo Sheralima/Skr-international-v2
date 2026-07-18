@@ -189,3 +189,62 @@ window.rejectDeposit = async function(id){
 // Load Deposits
 
 loadDeposits();
+// ===============================
+// Approve Deposit
+// ===============================
+
+import {
+  getDoc,
+  increment
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+window.approveDeposit = async function(depositId){
+
+  try{
+
+    // Deposit Record
+    const depositRef = doc(db,"deposits",depositId);
+
+    const depositSnap = await getDoc(depositRef);
+
+    if(!depositSnap.exists()){
+
+      alert("Deposit not found");
+
+      return;
+
+    }
+
+    const depositData = depositSnap.data();
+
+    // User Record
+    const userRef = doc(db,"users",depositData.uid);
+
+    // User Balance Update
+    await updateDoc(userRef,{
+
+      balance: increment(Number(depositData.amount))
+
+    });
+
+    // Deposit Status Update
+    await updateDoc(depositRef,{
+
+      status:"Approved"
+
+    });
+
+    alert("Deposit Approved Successfully");
+
+    // Refresh
+    loadDeposits();
+
+    loadStatistics();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+}
