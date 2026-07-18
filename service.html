@@ -4,100 +4,156 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Services - SKR INTERNATIONAL</title>
+<title>Withdraw - SKR INTERNATIONAL</title>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
-<header>
-<h1>SKR INTERNATIONAL</h1>
-<p>The Unity of Business</p>
-</header>
-
-
-<nav>
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="services.html">Services</a>
-<a href="contact.html">Contact</a>
-<a href="login.html">Login</a>
-<a href="register.html">Register</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="dashboard.html">SKR INTERNATIONAL</a>
+</div>
 </nav>
 
+<div class="container mt-5">
 
-<section class="services">
+<div class="row">
 
-<h2>Our Services</h2>
+<div class="col-md-6 mx-auto">
 
-<div class="service-box">
+<div class="card shadow-lg p-4">
 
-<h3>💼 Business Solutions</h3>
-<p>
-We provide modern business ideas and digital solutions
-to help people grow.
-</p>
+<h2 class="text-center text-danger">
+Withdraw Money
+</h2>
 
-</div>
+<hr>
 
+<h5>
+Current Balance:
+Rs. <span id="balance">0</span>
+</h5>
 
-<div class="service-box">
+<hr>
 
-<h3>🌐 Digital Services</h3>
-<p>
-Website development, online platforms and technology
-solutions for businesses.
-</p>
+<label class="form-label">
+Enter Withdraw Amount
+</label>
 
-</div>
+<input
+type="number"
+id="amount"
+class="form-control"
+placeholder="Enter Amount">
 
+<button
+class="btn btn-danger mt-3 w-100"
+id="withdrawBtn">
 
-<div class="service-box">
+Submit Withdraw
 
-<h3>💰 Wallet System</h3>
-<p>
-A secure wallet system for managing account balance
-and transactions (coming soon).
-</p>
+</button>
 
-</div>
+<a
+href="dashboard.html"
+class="btn btn-primary mt-3 w-100">
 
+Back to Dashboard
 
-<div class="service-box">
-
-<h3>👥 Member Community</h3>
-<p>
-Connect with members and build a strong business
-network worldwide.
-</p>
-
-</div>
-
-
-<div class="service-box">
-
-<h3>📊 Business Growth</h3>
-<p>
-Tools and services to support business planning
-and future opportunities.
-</p>
+</a>
 
 </div>
 
+</div>
 
-</section>
+</div>
 
+</div>
 
-<footer>
+<script type="module">
 
-<p>
-© 2026 SKR INTERNATIONAL - The Unity of Business
-</p>
+import { auth, db } from "./firebase.js";
 
-</footer>
+import {
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
+import {
+doc,
+getDoc,
+collection,
+addDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+let currentUser=null;
+let currentBalance=0;
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+window.location.href="login.html";
+return;
+
+}
+
+currentUser=user;
+
+const userRef=doc(db,"users",user.uid);
+
+const userSnap=await getDoc(userRef);
+
+if(userSnap.exists()){
+
+currentBalance=userSnap.data().balance;
+
+document.getElementById("balance").innerText=currentBalance;
+
+}
+
+});
+
+document.getElementById("withdrawBtn").addEventListener("click",async()=>{
+
+const amount=Number(document.getElementById("amount").value);
+
+if(amount<=0){
+
+alert("Enter valid amount");
+return;
+
+}
+
+if(amount>currentBalance){
+
+alert("Insufficient Balance");
+return;
+
+}
+
+await addDoc(collection(db,"withdraws"),{
+
+uid:currentUser.uid,
+
+amount:amount,
+
+status:"Pending",
+
+createdAt:serverTimestamp()
+
+});
+
+alert("Withdraw Request Submitted Successfully");
+
+document.getElementById("amount").value="";
+
+});
+
+</script>
 
 </body>
 </html>
