@@ -87,11 +87,13 @@ alert("Login Successful");
 
 window.location.href="dashboard.html";
 
-}catch(error){
+catch(error){
 
-if(error.code==="auth/invalid-credential"){
+alert(error.code);
 
-alert("Invalid Email or Password");
+alert(error.message);
+
+}
 
 }else if(error.code==="auth/user-not-found"){
 
