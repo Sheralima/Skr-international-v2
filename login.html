@@ -51,66 +51,39 @@ Create Account
 
 import { auth } from "./firebase.js";
 
-import {
-signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-const loginBtn=document.getElementById("loginBtn");
+const loginBtn = document.getElementById("loginBtn");
 
-loginBtn.addEventListener("click",async()=>{
+loginBtn.addEventListener("click", async () => {
 
-const email=document.getElementById("email").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-const password=document.getElementById("password").value;
+  if (email === "") {
+    alert("Please enter your email");
+    return;
+  }
 
-if(email===""){
+  if (password === "") {
+    alert("Please enter your password");
+    return;
+  }
 
-alert("Please enter your email");
+  try {
 
-return;
+    await signInWithEmailAndPassword(auth, email, password);
 
-}
+    alert("Login Successful");
 
-if(password===""){
+    window.location.href = "dashboard.html";
 
-alert("Please enter your password");
+  } catch (error) {
 
-return;
+    alert(error.code);
+    alert(error.message);
 
-}
-
-try{
-
-await signInWithEmailAndPassword(auth,email,password);
-
-alert("Login Successful");
-
-window.location.href="dashboard.html";
-
-catch(error){
-
-alert(error.code);
-
-alert(error.message);
-
-}
-(auth/invalid-credential,auth/network-request-failed,auth/unauthorized-domain),
-
-}else if(error.code==="auth/user-not-found"){
-
-alert("User not found");
-
-}else if(error.code==="auth/wrong-password"){
-
-alert("Wrong Password");
-
-}else{
-
-alert(error.message);
-
-}
-
-}
+  }
 
 });
 
