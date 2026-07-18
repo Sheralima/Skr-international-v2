@@ -1,62 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Login - SKR INTERNATIONAL</title>
 
 <link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
 
 <div class="register-box">
 
 <h2>Login</h2>
 
-<input type="email" placeholder="Email Address">
+<input
+type="email"
+id="email"
+placeholder="Email Address">
 
-<input type="password" placeholder="Password">
+<input
+type="password"
+id="password"
+placeholder="Password">
 
-<button onclick="login()">
+<button id="loginBtn">
+
 Login
+
 </button>
 
 <p>
+
 Don't have an account?
-<a href="register.html">Create Account</a>
+
+<a href="register.html">
+
+Create Account
+
+</a>
+
 </p>
 
 </div>
 
-<script>
+<script type="module">
 
-funct<script type="module">
-...
-</script>
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { auth } from "./firebase.js";
 
-loginButton.addEventListener("click", async () => {
+import {
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+const loginBtn=document.getElementById("loginBtn");
 
-try {
+loginBtn.addEventListener("click",async()=>{
 
-await signInWithEmailAndPassword(auth, email, password);
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value;
+
+if(email===""){
+
+alert("Please enter your email");
+
+return;
+
+}
+
+if(password===""){
+
+alert("Please enter your password");
+
+return;
+
+}
+
+try{
+
+await signInWithEmailAndPassword(auth,email,password);
 
 alert("Login Successful");
 
-window.location.href = "dashboard.html";
+window.location.href="dashboard.html";
 
-} catch(error) {
+}catch(error){
+
+if(error.code==="auth/invalid-credential"){
+
+alert("Invalid Email or Password");
+
+}else if(error.code==="auth/user-not-found"){
+
+alert("User not found");
+
+}else if(error.code==="auth/wrong-password"){
+
+alert("Wrong Password");
+
+}else{
 
 alert(error.message);
 
 }
 
+}
+
 });
+
 </script>
 
 </body>
+
 </html>
