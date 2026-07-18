@@ -248,3 +248,139 @@ window.approveDeposit = async function(depositId){
   }
 
 }
+// ===============================
+// Load Withdraw Requests
+// ===============================
+
+async function loadWithdraws(){
+
+const table=document.getElementById("withdrawTable");
+
+table.innerHTML="";
+
+const q=query(
+collection(db,"withdraws"),
+where("status","==","Pending")
+);
+
+const snapshot=await getDocs(q);
+
+snapshot.forEach((withdraw)=>{
+
+const data=withdraw.data();
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${data.uid}</td>
+
+<td>Rs. ${data.amount}</td>
+
+<td>${data.status}</td>
+
+<td>
+
+<button
+class="btn btn-success btn-sm"
+onclick="approveWithdraw('${withdraw.id}')">
+
+Approve
+
+</button>
+
+<button
+class="btn btn-danger btn-sm ms-2"
+onclick="rejectWithdraw('${withdraw.id}')">
+
+Reject
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+// ===============================
+// Approve Withdraw
+// ===============================
+
+window.approveWithdraw=async function(withdrawId){
+
+try{
+
+const withdrawRef=doc(db,"withdraws",withdrawId);
+
+const withdrawSnap=await getDoc(withdrawRef);
+
+if(!withdrawSnap.exists()){
+
+alert("Withdraw Request Not Found");
+
+return;
+
+}
+
+const withdrawData=withdrawSnap.data();
+
+const userRef=doc(db,"users",withdrawData.uid);
+
+// Balance Minus
+
+await updateDoc(userRef,{
+
+balance:increment(-Number(withdrawData.amount))
+
+});
+
+// Status Update
+
+await updateDoc(withdrawRef,{
+
+status:"Approved"
+
+});
+
+alert("Withdraw Approved Successfully");
+
+loadWithdraws();
+
+loadStatistics();
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+// ===============================
+// Reject Withdraw
+// ===============================
+
+window.rejectWithdraw=async function(withdrawId){
+
+await updateDoc(doc(db,"withdraws",withdrawId),{
+
+status:"Rejected"
+
+});
+
+alert("Withdraw Rejected");
+
+loadWithdraws();
+
+loadStatistics();
+
+}
+
+// Load Withdraw Requests
+
+loadWithdraws();
