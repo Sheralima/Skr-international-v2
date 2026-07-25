@@ -62,16 +62,16 @@ margin-bottom:15px;
 /* Slider */
 
 .slider{
-    width:100%;
-    height:450px;
+    width:50%;
+    height:225px;
     overflow:hidden;
     position:relative;
 }
 
 
 .slide{
-    width:100%;
-    height:450px;
+    width:50%;
+    height:225px;
     object-fit:cover;
     display:none;
 }
