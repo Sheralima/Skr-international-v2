@@ -2,6 +2,33 @@
 // Animated Counter
 // ===========================
 
+let index = 0;
+
+
+function showSlide(){
+
+    slides.forEach(function(slide){
+
+        slide.classList.remove("active");
+
+    });
+
+
+    index++;
+
+
+    if(index >= slides.length){
+
+        index = 0;
+
+    }
+
+
+    slides[index].classList.add("active");
+
+}
+
+
 const counters = document.querySelectorAll(".counter");
 
 counters.forEach(counter => {
