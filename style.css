@@ -15,17 +15,17 @@ color:#333;
 header{
 background:#0d6efd;
 color:#fff;
-padding:25px;
-text-align:center;
+padding:3px;
+text-align:fit-screen;
 }
 
 header h1{
-font-size:38px;
+font-size:5px;
 }
 
 header p{
-margin-top:10px;
-font-size:18px;
+margin-top:2px;
+font-size:2px;
 }
 
 /* Navbar */
