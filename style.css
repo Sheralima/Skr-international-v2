@@ -43,19 +43,19 @@ background:linear-gradient(rgba(13,110,253,.8),rgba(13,110,253,.8)),
 url("images/banner.jpg");
 background-size:cover;
 background-position:center;
-padding:120px 20px;
+padding:60px 10px;
 text-align:center;
 color:#fff;
 }
 
 .hero h1{
-font-size:50px;
-margin-bottom:20px;
+font-size:25px;
+margin-bottom:10px;
 }
 
 .hero p{
-font-size:22px;
-margin-bottom:30px;
+font-size:11px;
+margin-bottom:15px;
 }
 
 
