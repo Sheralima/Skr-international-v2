@@ -15,17 +15,20 @@ color:#333;
 header{
 background:#0d6efd;
 color:#fff;
-padding:3px;
+padding:38px;
 text-align:center;
     
 }
 
-header 
-}
+header }
+width:100%;
+height:100;
+object-fit:cover;
+display:none;
 
 header p{
-margin-top:2px;
-font-size:2px;
+margin-top:10px;
+font-size:10px;
 }
 
 /* Navbar */
