@@ -4,7 +4,14 @@
 
 let index = 0;
 
+// ==========================================
+// SKR INTERNATIONAL
+// Header JS
+// ==========================================
 
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Header Loaded Successfully");
+});
 function showSlide(){
 
     slides.forEach(function(slide){
