@@ -73,87 +73,8 @@ Back to Dashboard
 
 </div>
 
-<script type="module">
+<script type="module" src="fiebase.js"></script>
 
-import { auth, db } from "./firebase.js";
-
-import {
-onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-import {
-doc,
-getDoc,
-collection,
-addDoc,
-serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-let currentUser=null;
-let currentBalance=0;
-
-onAuthStateChanged(auth,async(user)=>{
-
-if(!user){
-
-window.location.href="login.html";
-return;
-
-}
-
-currentUser=user;
-
-const userRef=doc(db,"users",user.uid);
-
-const userSnap=await getDoc(userRef);
-
-if(userSnap.exists()){
-
-currentBalance=userSnap.data().balance;
-
-document.getElementById("balance").innerText=currentBalance;
-
-}
-
-});
-
-document.getElementById("withdrawBtn").addEventListener("click",async()=>{
-
-const amount=Number(document.getElementById("amount").value);
-
-if(amount<=0){
-
-alert("Enter valid amount");
-return;
-
-}
-
-if(amount>currentBalance){
-
-alert("Insufficient Balance");
-return;
-
-}
-
-await addDoc(collection(db,"withdraws"),{
-
-uid:currentUser.uid,
-
-amount:amount,
-
-status:"Pending",
-
-createdAt:serverTimestamp()
-
-});
-
-alert("Withdraw Request Submitted Successfully");
-
-document.getElementById("amount").value="";
-
-});
-
-</script>
 
 </body>
 </html>
