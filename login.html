@@ -47,47 +47,7 @@ Create Account
 
 </div>
 
-<script type="module">
 
-import { auth } from "./firebase.js";
-
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-const loginBtn = document.getElementById("loginBtn");
-
-loginBtn.addEventListener("click", async () => {
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (email === "") {
-    alert("Please enter your email");
-    return;
-  }
-
-  if (password === "") {
-    alert("Please enter your password");
-    return;
-  }
-
-  try {
-
-    await signInWithEmailAndPassword(auth, email, password);
-
-    
-
-    window.location.href = "dashboard.html";
-
-  } catch (error) {
-
-    alert(error.code);
-    alert(error.message);
-
-  }
-
-});
-
-</script>
 
 </body>
 
