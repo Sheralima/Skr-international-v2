@@ -6,8 +6,8 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:#f5f7fa;
-color:#333;
+background:#ffcocb;
+color:#255;
 }
 
 /* Header */
@@ -62,16 +62,16 @@ margin-bottom:15px;
 /* Slider */
 
 .slider{
-    width:50%;
-    height:225px;
+    width:100%;
+    height:250px;
     overflow:hidden;
     position:relative;
 }
 
 
 .slide{
-    width:50%;
-    height:225px;
+    width:100%;
+    height:250px;
     object-fit:cover;
     display:none;
 }
