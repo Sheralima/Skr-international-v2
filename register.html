@@ -4,54 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register - SKR INTERNATIONAL</title>
-
-<link rel="stylesheet" href="style.css">
-
+<style>
+body { font-family: Arial; background: #0d6efd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+.register-box { width:380px; background:#fff; padding:30px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.3); text-align: center; }
+.register-box h2 { color:#0d6efd; margin-bottom:20px; }
+.register-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:8px; font-size:16px; box-sizing: border-box; }
+.register-box button { width:100%; padding:12px; background:#0d6efd; color:#fff; border:none; border-radius:8px; font-size:16px; cursor:pointer; font-weight: bold; }
+.register-box button:hover { background:#084298; }
+.register-box p { margin-top:15px; }
+</style>
 </head>
 <body>
-
 <div class="register-box">
-
-<h2>Create Account</h2>
-
-<input
-type="text"
-id="name"
-placeholder="Full Name">
-
-<input
-type="email"
-id="email"
-placeholder="Email Address">
-
-<input
-type="password"
-id="password"
-placeholder="Password (Minimum 6 Characters)">
-
-<button id="registerBtn">
-
-Create Account
-
-</button>
-
-<p>
-
-Already have an account?
-
-<a href="login.html">
-
-Login
-
-</a>
-
-</p>
-
+  <h2>Create SKR Account</h2>
+  <input type="email" id="email" placeholder="Enter Email" required>
+  <input type="password" id="password" placeholder="Enter Password - min 6 chars" required>
+  <button onclick="register()">Register</button>
+  <p>Already have account? <a href="login.html">Login Here</a></p>
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-‎<script type="module" src="fiebase.js"></script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCpJo0r1dNf43PvZqpIyAf3HHIx7IHlTQg",
+  authDomain: "my-website-2d77f.firebaseapp.com",
+  projectId: "my-website-2d77f",
+  storageBucket: "my-website-2d77f.firebasestorage.app",
+  messagingSenderId: "439881130955",
+  appId: "1:439881130955:web:56d89a239ddd97d1124c4e"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
 
-
+window.register = async function() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  
+  if(password.length < 6) { alert("Password 6 characters se kam nahi ho sakta"); return; }
+  
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    // Database me user ka data save karo
+    await setDoc(doc(db, "users", user.uid), {
+      email: email,
+      balance: 0,
+      status: "active",
+      createdAt: new Date()
+    });
+    
+    alert("Account ban gaya! Ab Dashboard pe ja rahe hain");
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
+}
+</script>
 </body>
 </html>
