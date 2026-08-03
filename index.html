@@ -182,7 +182,13 @@ nav a { margin: 0 10px; font-size: 14px; }
 <section class="container" style="padding: 50px 20px;">
   <h2 style="text-align:center;">About Company</h2> <!-- FIX 8: tag band -->
 </section>
-
+  <!-- ===================== JS START ===================== -->
+  <script>
+    // ===== WHATSAPP BUTTON FUNCTION =====
+    function contactWhatsApp() {
+      window.open('https://wa.me/923001234567','_blank');
+    }
+  </script>
 <!-- Footer -->
 <footer>
   <p>© 2026 SKR INTERNATIONAL</p>
@@ -227,13 +233,7 @@ counters.forEach(counter => {
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>
- <script>
-    // ===== WHATSAPP BUTTON FUNCTION =====
-    function contactWhatsApp() {
-      window.open('https://wa.me/923113604581','_blank');
-    }
-  </script>
-  <!-- ===================== JS END ===================== -->
+
 
 </body>
 </html>
