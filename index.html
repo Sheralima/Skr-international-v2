@@ -235,55 +235,43 @@ width:92%;
       <img src="images/logo.png" alt="SKR Logo" style="width:50px; height:50px; border-radius:8px;">
       <h1>SKR🌍International</h1>
     </div>
-‎    <!-- ===== Navbar Start ===== -->
+‎    <!-- NAVBAR START -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<nav class="navbar">
+<style>
+  nav { 
+    background: linear-gradient(90deg, #16213e, #1a1a2e); 
+    padding: 18px 0; text-align: center; 
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  nav a { 
+    color: white; text-decoration: none; margin: 0 20px; font-weight: 600;
+    font-size: 17px; transition: all 0.3s ease; display: inline-block;
+  }
+  nav a i {
+    font-size: 22px; display: block; margin-bottom: 4px;
+  }
+  nav a:hover { 
+    color: #00d4ff; 
+    transform: translateY(-3px); 
+  }
 
+  @media(max-width: 768px) {
+    nav a { margin: 0 10px; font-size: 14px; }
+    nav a i { font-size: 18px; }
+  }
+</style>
 
-<div class="nav-icons">
-
-<a href="index.html" title="Home">
-🏠
-
-</a>
-
-<a href="about.html" title="About">
-ℹ️
-
-</a>
-
-<a href="services.html" title="Services" onclick="window.location.href="service.html">
-🛠️
-
-</a>
-
-<a href="contact.html" title="Contact">
-📞
-
-</a>
-
-<a href="login.html" title="Login">
-🔐
-
-</a>
-
-<a href="register.html" title="Register">
-📝
-  <a href="profile.html" title="profile">
-  👤
-
-  </a>
-  <a href="logout.html" title="logout">
-    🔩
-  
-  </a>
-</div>
-  <div class="nav-icon" nav-icon="font-size"50px;>
-  </div>
+<nav>
+  <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+  <a href="about.html"><i class="fa-solid fa-info-circle"></i> About</a>
+  <a href="services.html"><i class="fa-solid fa-briefcase"></i> Services</a>
+  <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+  <a href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+  <a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>
 </nav>
-  </head>
-
-<!-- ===== Navbar End ===== -->
+<!-- NAVBAR END -->
 ‎<!-- Hero -->
 ‎
 ‎<section class="hero">
