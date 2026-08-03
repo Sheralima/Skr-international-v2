@@ -35,47 +35,6 @@
 
     <button class="btn" onclick="window.location.href='index.html'">Back to Home</button>
   </div>
-
-<script type="module">
-  // 1. Firebase import
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  // 2. YAHAN APNA FIREBASE CONFIG PASTE KARO
-  const firebaseConfig = {
-    apiKey: "APNA_API_KEY",
-    authDomain: "APNA_AUTH_DOMAIN",
-    projectId: "APNA_PROJECT_ID",
-    storageBucket: "APNA_STORAGE_BUCKET",
-    messagingSenderId: "APNA_SENDER_ID",
-    appId: "APNA_APP_ID"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // 3. Login user ka data uthao aur show karo
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        document.getElementById("profileName").innerText = data.name || "User";
-        document.getElementById("profileEmail").innerText = data.email || user.email;
-        document.getElementById("profilePhone").innerText = data.phone || "Not Added";
-        document.getElementById("profileAddress").innerText = data.address || "Not Added";
-        document.getElementById("profileBalance").innerText = data.balance || "0";
-      }
-    } else {
-      // Agar login nahi hai to login page pe bhej do
-      window.location.href = "index.html";
-    }
-  });
-</script>
-
+<script type="module" src="fiebase.js"></script>
 </body>
 </html>
