@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKR International - Sign Up</title>
+<style>
+  body { font-family: Arial; background: linear-gradient(135deg, #00c853, #2962ff); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+  .box { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); text-align: center; }
+  h1 { color: #2962ff; margin-bottom: 5px; }
+  input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+  button { width: 100%; padding: 12px; background: #00c853; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
+  a { color: #2962ff; text-decoration: none; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>SKR International</h1>
+  <h3>Create Account</h3>
+  <input type="text" id="name" placeholder="Full Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="password" id="password" placeholder="Password - min 6 characters" required>
+  <button id="btn" onclick="signup()">Sign Up</button>
+  <p>Already have account? <a href="login.html">Login Here</a></p>
+</div>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
+    authDomain: "skr-website-v2.firebaseapp.com",
+    projectId: "skr-website-v2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.signup = async () => {
+    const btn = document.getElementById('btn');
+    btn.innerText = "Registering...";
+    btn.disabled = true;
+    
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if(!name || !email || password.length < 6){
+      alert("Please fill all fields. Password must be 6+ characters");
+      btn.innerText = "Sign Up";
+      btn.disabled = false;
+      return;
+    }
+
+    try{
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        name: name, email: email, role: "student", createdAt: new Date()
+      });
+
+      alert("Account Created Successfully! ✅");
+      // Redirect hata diya - abhi ke liye
+      btn.innerText = "Sign Up";
+      btn.disabled = false;
+      document.getElementById('name').value = "";
+      document.getElementById('email').value = "";
+      document.getElementById('password').value = "";
+      
+    }catch(e){
+      alert("ERROR: " + e.message);
+      btn.innerText = "Sign Up";
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
