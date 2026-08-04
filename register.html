@@ -1,1 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>TEST</title></head>
+<body style="font-family:Arial; text-align:center; padding-top:100px;">
+  <h1 style="color:green;">TEST PAGE WORKING ✅</h1>
+  <button onclick="alert('Button Working!')">Click Me</button>
+  
+  <h2>Register Test</h2>
+  <input id="name" placeholder="Name"><br><br>
+  <input id="email" placeholder="Email"><br><br>
+  <input id="pass" placeholder="Pass"><br><br>
+  <button id="btn" onclick="test()">Register</button>
 
+<script>
+function test(){
+  document.getElementById('btn').innerText = "Registering...";
+  setTimeout(() => {
+    alert("Account Created Successfully! ✅");
+    document.getElementById('btn').innerText = "Register";
+  }, 2000);
+}
+</script>
+</body>
+</html>
