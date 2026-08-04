@@ -10,7 +10,7 @@
   h1 { color: #2962ff; margin-bottom: 5px; }
   input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
   button { width: 100%; padding: 12px; background: #00c853; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-  button:disabled { background: #aaa; }
+  button:disabled { background: #aaa; cursor: not-allowed; }
   a { color: #2962ff; text-decoration: none; font-weight: bold; }
 </style>
 </head>
@@ -26,7 +26,6 @@
 </div>
 
 <script type="module">
-  console.log("Firebase loading...");
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -40,7 +39,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  console.log("Firebase Loaded");
 
   window.register = async () => {
     const btn = document.getElementById('btn');
@@ -52,28 +50,24 @@
     const password = document.getElementById('password').value;
 
     if(!name || !email || password.length < 6){
-      alert("Fill all fields. Password 6+ chars");
+      alert("Please fill all fields. Password must be 6+ characters");
       btn.innerText = "Register";
       btn.disabled = false;
       return;
     }
 
     try{
-      console.log("Creating user...");
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User created:", userCredential.user.uid);
-      
       await setDoc(doc(db, "users", userCredential.user.uid), {
         name: name, email: email, role: "student", createdAt: new Date()
       });
-      console.log("Data saved");
 
-      alert("Account Created Successfully!");
-      window.location.href = "dashboard.html";
+      alert("Account Created Successfully! ✅");
+      // YEH LINE CHANGE KI HAI - FULL URL + replace
+      window.location.replace("https://sheralima.github.io/Skr-international-v2/dashboard.html");
       
     }catch(e){
-      console.error(e);
-      alert("ERROR CODE: " + e.code + "\nMESSAGE: " + e.message); // YAHAN ERROR AAYEGA
+      alert("ERROR: " + e.message);
       btn.innerText = "Register";
       btn.disabled = false;
     }
