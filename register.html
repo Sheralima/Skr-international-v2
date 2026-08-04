@@ -23,7 +23,6 @@
   <button id="btn" onclick="register()">Register</button>
   <p style="margin-top:15px;">Done? <a href="dashboard.html">Go to Dashboard</a></p>
 </div>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -51,8 +50,9 @@
       await setDoc(doc(db, "users", userCredential.user.uid), {name: name, email: email});
       
       alert("Account Created Successfully! ✅");
-      btn.innerText = "Register"; 
-      btn.disabled = false;
+      // YAHAN REDIRECT LAG GAYA
+      window.location.href = "dashboard.html";
+      
     }catch(e){ 
       alert("ERROR: "+e.message); 
       btn.innerText = "Register"; 
@@ -60,5 +60,6 @@
     }
   }
 </script>
+
 </body>
 </html>
