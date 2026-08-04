@@ -27,7 +27,16 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const db = getFirestore(app);
 
+// Register ke andar
+const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+await setDoc(doc(db, "users", userCredential.user.uid), {
+  name: document.getElementById('name').value,
+  email: email,
+  createdAt: new Date()
+});
 const firebaseConfig = {
   apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
   authDomain: "skr-website-v2.firebaseapp.com",
