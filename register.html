@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SKR Register</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: 'Arial'; background: #0d6efd; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
+  .box { background:white; padding:40px 30px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.2); width:90%; max-width:400px; text-align:center; }
+  .box h2 { color:#0d6efd; margin-bottom:25px; }
+  .box input { width:100%; padding:14px; margin:10px 0; border:2px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:16px; }
+  .box button { width:100%; padding:14px; background:#0d6efd; color:white; border:none; border-radius:8px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:10px; }
+  .box button:hover { background:#004aad; }
+  .box a { color:#0d6efd; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>SKR International</h2>
+  <h3>Create Account</h3>
+  <input id="email" type="email" placeholder="Enter Email">
+  <input id="password" type="password" placeholder="Enter Password 6+ chars">
+  <button id="btn" onclick="register()">Register Now</button>
+  <p>Already have account? <a href="login.html">Login Here</a></p>
+</div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
+  authDomain: "skr-website-v2.firebaseapp.com",
+  projectId: "skr-website-v2"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.register = async () => {
+  document.getElementById('btn').innerText = "Creating...";
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  try{
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("Account Created Successfully!");
+    window.location.href = "login.html";
+  }catch(e){
+    alert("ERROR: " + e.message);
+    document.getElementById('btn').innerText = "Register Now";
+  }
+}
+</script>
+</body>
+</html>
