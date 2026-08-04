@@ -1,64 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Register - SKR</title>
+<html>
+<head><title>Register - SKR</title>
 <style>
-body { font-family: Arial; background: #0d6efd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-.register-box { width:380px; background:#fff; padding:30px; border-radius:12px; text-align: center; }
-.register-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:8px; box-sizing: border-box; }
-  <button type="submit" onclick="this.disabled=true">Register</button>
-.register-box button { width:100%; padding:12px; background:#0d6efd; color:#fff; border:none; border-radius:8px; font-weight: bold; cursor:pointer; }
+body {font-family:Arial; background:#0d6efd; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+.box {background:white; padding:30px; border-radius:12px; width:350px; text-align:center;}
+input {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc; box-sizing:border-box;}
+button {width:100%; padding:12px; background:#0d6efd; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;}
 </style>
 </head>
 <body>
-<div class="register-box">
+<div class="box">
   <h2>Create SKR Account</h2>
-  <form id="regForm"> <!-- form tag add kiya -->
-    <form id="regForm" autocomplete="off">
+  <form id="regForm" autocomplete="off">
     <input type="email" id="email" placeholder="Enter NEW Email" required>
-    <input type="password" id="password" placeholder="Password min 6 chars" required>
-    <button type="submit">Register</button> <!-- type submit -->
+    <input type="password" id="password" placeholder="Password 6+ chars" required>
+    <button type="submit" id="btn">Register</button>
   </form>
-  <p>Already have account? <a href="login.html">Login Here</a></p>
+  <p>Already have account? <a href="login.html">Login</a></p>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCpJo0r1dNf43PvZqpIyAf3HHIx7IHlTQg",
-  authDomain: "my-website-2d77f.firebaseapp.com",
-  projectId: "my-website-2d77f"
+  apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
+  authDomain: "skr-website-v2.firebaseapp.com",
+  projectId: "skr-website-v2"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Yahan pehle logout karwa do taake cache clear ho jaye
-auth.signOut();
+// Page load pe logout taake cache clear ho
+await signOut(auth);
 
 document.getElementById('regForm').addEventListener('submit', async (e) => {
-  e.preventDefault(); // ye line sabse zaroori hai - page reload rok degi
+  e.preventDefault();
+  const btn = document.getElementById('btn');
+  btn.disabled = true;
+  btn.innerText = "Creating...";
   
-  const email = document.getElementById('email').value;
+  const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    
-    await setDoc(doc(db, "users", user.uid), {
-      email: email,
-      balance: 0,
-      createdAt: new Date()
-    });
-    
-    alert("SUCCESS! Account ban gaya: " + email);
+    const userCred = await createUserWithEmailAndPassword(auth, email, password);
+    await setDoc(doc(db, "users", userCred.user.uid), {email: email, balance: 0});
+    alert("SUCCESS! Account ban gaya");
     window.location.href = "login.html";
   } catch (error) {
     alert("ERROR: " + error.code + "\n" + error.message);
+    btn.disabled = false;
+    btn.innerText = "Register";
   }
 })
 </script>
