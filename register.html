@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register - SKR INTERNATIONAL</title>
+<title>Register - SKR</title>
 <style>
 body { font-family: Arial; background: #0d6efd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-.register-box { width:380px; background:#fff; padding:30px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.3); text-align: center; }
-.register-box h2 { color:#0d6efd; margin-bottom:20px; }
-.register-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:8px; font-size:16px; box-sizing: border-box; }
-.register-box button { width:100%; padding:12px; background:#0d6efd; color:#fff; border:none; border-radius:8px; font-size:16px; cursor:pointer; font-weight: bold; }
-.register-box button:hover { background:#084298; }
-.register-box p { margin-top:15px; }
+.register-box { width:380px; background:#fff; padding:30px; border-radius:12px; text-align: center; }
+.register-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:8px; box-sizing: border-box; }
+.register-box button { width:100%; padding:12px; background:#0d6efd; color:#fff; border:none; border-radius:8px; font-weight: bold; cursor:pointer; }
 </style>
 </head>
 <body>
 <div class="register-box">
   <h2>Create SKR Account</h2>
-  <input type="email" id="email" placeholder="Enter Email" required>
-  <input type="password" id="password" placeholder="Enter Password - min 6 chars" required>
-  <button onclick="register()">Register</button>
+  <form id="regForm"> <!-- form tag add kiya -->
+    <input type="email" id="email" placeholder="Enter NEW Email" required>
+    <input type="password" id="password" placeholder="Password min 6 chars" required>
+    <button type="submit">Register</button> <!-- type submit -->
+  </form>
   <p>Already have account? <a href="login.html">Login Here</a></p>
 </div>
 
@@ -31,39 +28,37 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12
 const firebaseConfig = {
   apiKey: "AIzaSyCpJo0r1dNf43PvZqpIyAf3HHIx7IHlTQg",
   authDomain: "my-website-2d77f.firebaseapp.com",
-  projectId: "my-website-2d77f",
-  storageBucket: "my-website-2d77f.firebasestorage.app",
-  messagingSenderId: "439881130955",
-  appId: "1:439881130955:web:56d89a239ddd97d1124c4e"
+  projectId: "my-website-2d77f"
 };
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-window.register = async function() {
+// Yahan pehle logout karwa do taake cache clear ho jaye
+auth.signOut();
+
+document.getElementById('regForm').addEventListener('submit', async (e) => {
+  e.preventDefault(); // ye line sabse zaroori hai - page reload rok degi
+  
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  
-  if(password.length < 6) { alert("Password 6 characters se kam nahi ho sakta"); return; }
   
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Database me user ka data save karo
     await setDoc(doc(db, "users", user.uid), {
       email: email,
       balance: 0,
-      status: "active",
       createdAt: new Date()
     });
     
-    alert("Account ban gaya! Ab Dashboard pe ja rahe hain");
-    window.location.href = "dashboard.html";
+    alert("SUCCESS! Account ban gaya: " + email);
+    window.location.href = "login.html";
   } catch (error) {
-    alert("Error: " + error.message);
+    alert("ERROR: " + error.code + "\n" + error.message);
   }
-}
+})
 </script>
 </body>
 </html>
