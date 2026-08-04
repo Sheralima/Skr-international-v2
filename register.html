@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SKR Register</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: 'Arial'; background: linear-gradient(135deg, #28a745, #0d6efd); display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
+  .box { background:white; padding:40px 30px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.3); width:90%; max-width:400px; text-align:center; }
+  .box h2 { color:#0d6efd; margin:0; font-size:28px; }
+  .box h3 { color:#333; margin-bottom:25px; font-weight:400; }
+  .box input { width:100%; padding:14px; margin:10px 0; border:2px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:16px; outline:none; }
+  .box input:focus { border-color:#28a745; }
+  .box button { width:100%; padding:14px; background:#28a745; color:white; border:none; border-radius:8px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:15px; transition:0.3s; }
+  .box button:hover { background:#218838; transform: scale(1.02); }
+  .box a { color:#0d6efd; text-decoration:none; font-weight:bold; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>SKR International</h2>
+  <h3>Create Account</h3>
+  <input id="name" type="text" placeholder="Enter Your Full Name">
+  <input id="email" type="email" placeholder="Enter Your Email">
+  <input id="password" type="password" placeholder="Enter Your Password">
+  <button id="btn" onclick="register()">Register</button>
+  <p style="margin-top:20px;">Already have account? <a href="login.html">Login Here</a></p>
+</div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
+  authDomain: "skr-website-v2.firebaseapp.com",
+  projectId: "skr-website-v2"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.register = async () => {
+  document.getElementById('btn').innerText = "Registering...";
+  document.getElementById('btn').disabled = true;
+  
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  
+  if(!name){ alert("Please enter name"); return; }
+  
+  try{
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    // YE LINE DATA FIRESTORE ME SAVE KAREGI
+    await setDoc(doc(db, "users", userCredential.user.uid), {
+      name: name,
+      email: email,
+      role: "student", // default student
+      createdAt: new Date()
+    });
+    
+    alert("Account Created Successfully!");
+    window.location.href = "dashboard.html";
+  }catch(e){
+    alert("ERROR: " + e.message);
+    document.getElementById('btn').innerText = "Register";
+    document.getElementById('btn').disabled = false;
+  }
+}
+</script>
+</body>
+</html>
