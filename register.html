@@ -6,6 +6,7 @@
 body { font-family: Arial; background: #0d6efd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
 .register-box { width:380px; background:#fff; padding:30px; border-radius:12px; text-align: center; }
 .register-box input { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:8px; box-sizing: border-box; }
+  <button type="submit" onclick="this.disabled=true">Register</button>
 .register-box button { width:100%; padding:12px; background:#0d6efd; color:#fff; border:none; border-radius:8px; font-weight: bold; cursor:pointer; }
 </style>
 </head>
@@ -13,6 +14,7 @@ body { font-family: Arial; background: #0d6efd; display: flex; justify-content: 
 <div class="register-box">
   <h2>Create SKR Account</h2>
   <form id="regForm"> <!-- form tag add kiya -->
+    <form id="regForm" autocomplete="off">
     <input type="email" id="email" placeholder="Enter NEW Email" required>
     <input type="password" id="password" placeholder="Password min 6 chars" required>
     <button type="submit">Register</button> <!-- type submit -->
