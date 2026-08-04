@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SKR Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: 'Arial'; background: linear-gradient(135deg, #0d6efd, #004aad); display:flex; justify-content:center; align-items:center; height:100vh; margin:0; }
+  .box { background:white; padding:40px 30px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.3); width:90%; max-width:400px; text-align:center; }
+  .box h2 { color:#0d6efd; margin:0; font-size:28px; }
+  .box h3 { color:#333; margin-bottom:25px; font-weight:400; }
+  .box input { width:100%; padding:14px; margin:10px 0; border:2px solid #ddd; border-radius:8px; box-sizing:border-box; font-size:16px; outline:none; }
+  .box input:focus { border-color:#0d6efd; }
+  .box button { width:100%; padding:14px; background:#0d6efd; color:white; border:none; border-radius:8px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:15px; transition:0.3s; }
+  .box button:hover { background:#004aad; transform: scale(1.02); }
+  .box a { color:#0d6efd; text-decoration:none; font-weight:bold; }
+  .box a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>SKR International</h2>
+  <h3>Welcome Back</h3>
+  <input id="email" type="email" placeholder="Enter Your Email">
+  <input id="password" type="password" placeholder="Enter Your Password">
+  <button id="btn" onclick="login()">Login</button>
+  
+  <p style="margin-top:10px;"><a href="#" onclick="resetPass()">Forgot Password?</a></p>
+  <p style="margin-top:20px;">Don't have account? <a href="register.html">Register Here</a></p>
+</div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// TUMHARA FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
+  authDomain: "skr-website-v2.firebaseapp.com",
+  projectId: "skr-website-v2"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// LOGIN FUNCTION
+window.login = async () => {
+  document.getElementById('btn').innerText = "Logging in...";
+  document.getElementById('btn').disabled = true;
+  
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  
+  try{
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Login Success!");
+    window.location.href = "dashboard.html";
+  }catch(e){
+    alert("ERROR CODE: " + e.code + "\nMESSAGE: " + e.message);
+    document.getElementById('btn').innerText = "Login";
+    document.getElementById('btn').disabled = false;
+  }
+}
+
+// FORGOT PASSWORD FUNCTION - YE NAYA ADD HUA HAI
+window.resetPass = async () => {
+  const email = prompt("Enter your email to reset password:");
+  if(email){
+    try{
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent! Check your inbox and spam folder.");
+    }catch(e){ 
+      alert("Error: " + e.message); 
+    }
+  }
+}
+</script>
+</body>
+</html>
