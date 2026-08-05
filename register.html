@@ -83,42 +83,32 @@
   <button id="btn" onclick="register()">Register</button>
   <p id="status"></p>
 </div>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDeKanWCH9u8adC1Pq2_4eCBXD0MRAvdc4",
-    authDomain: "skr-website-v2.firebaseapp.com",
-    projectId: "skr-website-v2"
+    // apna config yahan paste karo
   };
-  
+
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app); 
-  const db = getFirestore(app);
+  const auth = getAuth(app);
 
-  window.register = async () => {
-    document.getElementById('status').innerText = "Registering...";
-    document.getElementById('btn').disabled = true;
-    try{
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      if(password.length < 6){ alert("Password must be 6 characters"); return; }
-
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, "users", userCredential.user.uid), {name: name, email: email, createdAt: new Date()});
-      
-      document.getElementById('status').innerText = "Success! Redirecting...";
-      setTimeout(()=>{ window.location.href = "dashboard.html"; }, 1500);
-      .catch((error) => {
-    alert("Firebase Error: " + error.code + "\nMessage: " + error.message);
-    console.error(error);
-})
+  document.getElementById('registerBtn').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
     
+    alert("Button click hua. Ab Firebase call kar raha hun..."); // ye test ke liye
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Account Ban Gaya!");
+        window.location.href = "dashboard.html";
+      })
+      .catch((error) => {
+        alert("ERROR AA GAYA: " + error.code + "\n" + error.message); // ye sabse zaruri hai
+      });
+  });
 </script>
 </body>
 </html>
