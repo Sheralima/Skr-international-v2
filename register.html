@@ -114,16 +114,11 @@
       
       document.getElementById('status').innerText = "Success! Redirecting...";
       setTimeout(()=>{ window.location.href = "dashboard.html"; }, 1500);
-      
-    }catch(e){ 
-      document.getElementById('status').innerText = "ERROR: " + e.message; 
-      document.getElementById('btn').disabled = false; 
-    }
-  }
-  .catch((error) => {
-    alert("Error: " + error.message); // ye line add karo
+      .catch((error) => {
+    alert("Firebase Error: " + error.code + "\nMessage: " + error.message);
     console.error(error);
 })
+    
 </script>
 </body>
 </html>
